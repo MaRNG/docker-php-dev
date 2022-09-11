@@ -1,0 +1,65 @@
+version: '2'
+
+services:
+  apache:
+    container_name: apache
+    build: ./dockerfiles/apache/.
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - php80:php80
+      - php81:php81
+    volumes:
+      - ./apache/sites-enabled:/etc/apache2/sites-enabled
+      - ./apache/ssl/keys:/srv/keys
+    volumes_from:
+      - data
+  php81:
+    container_name: php81
+    image: dockette/php:8.1-fpm
+    links:
+      - mariadb:db
+    environment:
+      - SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
+      - NETTE_DEBUG=1
+    volumes_from:
+      - data
+      - userdirs
+  php80:
+    container_name: php80
+    build: ./dockerfiles/php/80/.
+    links:
+      - mariadb:db
+    environment:
+      - SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
+      - NETTE_DEBUG=1
+    volumes_from:
+      - data
+      - userdirs
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: pwd
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 9999:8080
+    links:
+      - mariadb:db
+  userdirs:
+    container_name: userdirs
+    image: busybox
+    volumes:
+      - ./data/root-dir:/root
+      - ./data/dfx-dir:/home/dfx
+      - $SSH_AUTH_SOCK:${SSH_AUTH_SOCK}
+  data:
+    container_name: projects-data
+    image: busybox
+    volumes:
+       - ./projects:/srv

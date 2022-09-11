@@ -1,0 +1,6 @@
+projects/*
+!projects/.gitkeep
+data/*
+!data/.gitkeep
+apache/sites-enabled/*
+!apache/sites-enabled/.gitkeep
