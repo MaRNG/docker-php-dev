@@ -17,6 +17,7 @@ You need to add VHost to folder `./apache/sites-enabled/`.
 
 ### Example of VHost
 Filename: `example-site.conf`
+
 PHP: PHP8.0
 
 ```conf
