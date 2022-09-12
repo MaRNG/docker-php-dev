@@ -17,12 +17,11 @@ services:
       - data
   php81:
     container_name: php81
-    image: dockette/php:8.1-fpm
+    build: ./dockerfiles/php/81/.
     links:
       - mariadb:db
     environment:
       - SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
-      - NETTE_DEBUG=1
     volumes_from:
       - data
       - userdirs
@@ -33,7 +32,6 @@ services:
       - mariadb:db
     environment:
       - SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
-      - NETTE_DEBUG=1
     volumes_from:
       - data
       - userdirs
