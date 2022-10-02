@@ -4,6 +4,7 @@ services:
   apache:
     container_name: apache
     build: ./dockerfiles/apache/.
+    restart: always
     ports:
       - 80:80
       - 443:443
@@ -18,6 +19,7 @@ services:
   php81:
     container_name: php81
     build: ./dockerfiles/php/81/.
+    restart: always
     links:
       - mariadb:db
     environment:
@@ -28,6 +30,7 @@ services:
   php80:
     container_name: php80
     build: ./dockerfiles/php/80/.
+    restart: always
     links:
       - mariadb:db
     environment:
